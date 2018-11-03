@@ -3,7 +3,11 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\ProductsServer\ProductsServer\ProductsContract.cs" Link="ProductsContract.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.13" />
+    <PackageReference Include="WindowsAzure.ServiceBus" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
