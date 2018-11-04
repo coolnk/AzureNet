@@ -31,6 +31,7 @@ namespace HybridSample
             {
                 RequestUri = uri,
                 Method = HttpMethod.Get,
+              
             };
             request.Headers.Add("ServiceBusAuthorization", token);
             var response = await client.SendAsync(request);

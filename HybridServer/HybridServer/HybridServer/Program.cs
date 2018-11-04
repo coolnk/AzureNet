@@ -32,7 +32,7 @@ namespace HybridServer
             // Provide an HTTP request handler
             listener.RequestHandler = (context) =>
             {
-                if (true)
+                if (context.Request.HttpMethod.Contains("POST"))
                 {
                     // Do something with context.Request.Url, HttpMethod, Headers, InputStream...
                     context.Response.StatusCode = HttpStatusCode.OK;
@@ -48,7 +48,7 @@ namespace HybridServer
 
                 }
 
-                if (true)
+                if (context.Request.HttpMethod.Contains("GET"))
                 {
                     // Do something with context.Request.Url, HttpMethod, Headers, InputStream...
                     context.Response.StatusCode = HttpStatusCode.OK;
