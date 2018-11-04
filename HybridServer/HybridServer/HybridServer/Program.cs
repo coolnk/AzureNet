@@ -32,13 +32,36 @@ namespace HybridServer
             // Provide an HTTP request handler
             listener.RequestHandler = (context) =>
             {
-                // Do something with context.Request.Url, HttpMethod, Headers, InputStream...
-                context.Response.StatusCode = HttpStatusCode.OK;
-                context.Response.StatusDescription = "OK";
-                using (var sw = new StreamWriter(context.Response.OutputStream))
+                if (true)
                 {
-                    sw.WriteLine("hello!");
+                    // Do something with context.Request.Url, HttpMethod, Headers, InputStream...
+                    context.Response.StatusCode = HttpStatusCode.OK;
+                    context.Response.StatusDescription = "OK";
+                    var body = new StreamReader(context.Request.InputStream).ReadToEnd();
+                    using (var sw = new StreamWriter(context.Response.OutputStream))
+                    {
+                        
+
+                        sw.WriteLine("hello");
+                    }
+
+
                 }
+
+                if (true)
+                {
+                    // Do something with context.Request.Url, HttpMethod, Headers, InputStream...
+                    context.Response.StatusCode = HttpStatusCode.OK;
+                    context.Response.StatusDescription = "OK";
+                    using (var sw = new StreamWriter(context.Response.OutputStream))
+                    {
+                        sw.WriteLine("world!");
+                    }
+
+
+                }
+
+
 
                 // The context MUST be closed here
                 context.Response.Close();
