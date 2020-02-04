@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,22 +12,28 @@ using ProductsServer;
 
 namespace ProductsFunctionApp
 {
-  
+
     public static class ProductsFunction
     {
         static ChannelFactory<IProductsChannel> channelFactory;
         [FunctionName("products")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
-         
+
+            var remoteAddress =  GetEnvironmentVariable("RemoteAddress");
+            var rootManageSharedAccessKey = GetEnvironmentVariable("RootManageSharedAccessKey");
+            var sendKeyName = GetEnvironmentVariable("SendKeyName");
+
+
             // Create shared access signature token credentials for authentication.
             channelFactory = new ChannelFactory<IProductsChannel>(new NetTcpRelayBinding(),
-                "sb://nkrelay.servicebus.windows.net/products");
+                remoteAddress);
             channelFactory.Endpoint.Behaviors.Add(new TransportClientEndpointBehavior
             {
                 TokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider(
-                    "RootManageSharedAccessKey", "UDM6HmMxBkd4VqbRseeglTf6lpLsGojf6+O7trcogS0=")
+                    sendKeyName, rootManageSharedAccessKey)
             });
+
 
             log.Info("C# HTTP trigger function processed a request.");
 
@@ -43,6 +50,11 @@ namespace ProductsFunctionApp
                         };
                return req.CreateResponse(HttpStatusCode.OK, result);
             }
+        }
+
+        public static string GetEnvironmentVariable(string name)
+        {
+            return System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
         }
     }
 }
