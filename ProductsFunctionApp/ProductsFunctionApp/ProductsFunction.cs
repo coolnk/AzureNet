@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.ServiceBus;
+using Newtonsoft.Json;
 using ProductsServer;
 
 namespace ProductsFunctionApp
@@ -48,7 +49,11 @@ namespace ProductsFunctionApp
                             Name = prod.Name,
                             Quantity = prod.Quantity
                         };
-               return req.CreateResponse(HttpStatusCode.OK, result);
+
+                string json = JsonConvert.SerializeObject(result, Formatting.Indented);
+                log.Info(json);
+
+                return req.CreateResponse(HttpStatusCode.OK, result);
             }
         }
 
