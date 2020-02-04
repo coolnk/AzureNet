@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -50,10 +51,15 @@ namespace ProductsFunctionApp
                             Quantity = prod.Quantity
                         };
 
-                string json = JsonConvert.SerializeObject(result, Formatting.Indented);
-                log.Info(json);
+                string jsonToReturn = JsonConvert.SerializeObject(result, Formatting.Indented);
+                log.Info(jsonToReturn);
 
-                return req.CreateResponse(HttpStatusCode.OK, result);
+               
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(jsonToReturn, Encoding.UTF8, "application/json")
+                };
+               // return req.CreateResponse(HttpStatusCode.OK, result);
             }
         }
 
